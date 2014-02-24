@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#FFFFFF"
     tools:context=".FullscreenActivity" >
 
     <!--
          The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
+         TextureView, etc.
     -->
 
     <TextView
@@ -24,7 +24,7 @@
 
     <!--
          This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
+         android:fitsSystemWindows.
     -->
 
     <FrameLayout
@@ -51,29 +51,56 @@
                 android:text="@string/dummy_button" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button2"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="104dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="Pref" />
+        <TabHost
+            android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:text="Home" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/button3"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="106dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Settings" />
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black_overlay" >
+
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <LinearLayout
+                        android:id="@+id/Pref"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+
+                        <TwoLineListItem
+                            android:id="@+id/twoLineListItem1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Home"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
 
     </FrameLayout>
 
