@@ -1,6 +1,7 @@
 package com.example.sportmix;
 /*
 import android.os.Bundle;
+
 import android.app.Activity;
 import android.view.Menu;
 
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
 */
 
 import com.example.sportmix.R;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
                     // do nothing
                 } finally {
                     finish();
-                    //startActivity(new Intent("com.wiley.fordummies.androidsdk.tictactoe.Login"));
+                    startActivity(new Intent("com.example.sportmix.FullscreenActivity"));
                 }
             }
         };
