@@ -2,13 +2,21 @@ package com.example.sportmix;
 
 import com.example.sportmix.util.SystemUiHider;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -16,40 +24,106 @@ import android.view.View;
  * 
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity {
-	/**
-	 * Whether or not the system UI should be auto-hidden after
-	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-	 */
-	private static final boolean AUTO_HIDE = true;
+@SuppressLint("NewApi")
+public class FullscreenActivity extends FragmentActivity implements ActionBar.TabListener {
 
-	/**
-	 * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-	 * user interaction before hiding the system UI.
-	 */
-	private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+private ViewPager viewPager;
+private TabsPagerAdapter mAdapter;
+private ActionBar actionBar;
+// Tab titles
+private String[] tabs = { "Preferences", "Scores", "Settings" };
 
-	/**
-	 * If set, will toggle the system UI visibility upon interaction. Otherwise,
-	 * will show the system UI visibility upon interaction.
-	 */
-	private static final boolean TOGGLE_ON_CLICK = true;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_fullscreen);
 
-	/**
-	 * The flags to pass to {@link SystemUiHider#getInstance}.
-	 */
-	private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
+// Initilization
+viewPager = (ViewPager) findViewById(R.id.pager);
+actionBar = getActionBar();
+mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
-	/**
-	 * The instance of the {@link SystemUiHider} for this activity.
-	 */
-	private SystemUiHider mSystemUiHider;
+viewPager.setAdapter(mAdapter);
+actionBar.setHomeButtonEnabled(false);
+actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);        
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_fullscreen);
-
-	}
+// Adding Tabs
+for (String tab_name : tabs) {
+    actionBar.addTab(actionBar.newTab().setText(tab_name)
+            .setTabListener(this));
 }
+viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+	 
+    @Override
+    public void onPageSelected(int position) {
+        // on changing the page
+        // make respected tab selected
+        actionBar.setSelectedNavigationItem(position);
+    }
+ 
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
+    }
+ 
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+    }
+});
+}
+
+@Override
+public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	// TODO Auto-generated method stub
+	
+}
+public void onStart() {
+	super.onStart();
+	tToast("onStart");
+}
+
+public void onRestart() {
+	super.onRestart();
+	tToast("onRestart");
+}
+
+public void onResume() {
+	super.onResume();
+	tToast("onResume");
+}
+
+public void onPause() {
+	super.onPause();
+	tToast("onPause: bye bye!");
+}
+
+public void onStop() {
+	super.onStop();
+	tToast("onStop.");
+}
+
+public void onDestroy() {
+	super.onStop();
+	tToast("onDestroy.");
+}
+
+private void tToast(String s) {
+    Context context = getApplicationContext();
+    int duration = Toast.LENGTH_SHORT;
+    Toast toast = Toast.makeText(context, s, duration);
+    toast.show();
+}
+
+}
+
