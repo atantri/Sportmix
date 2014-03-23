@@ -30,7 +30,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-
+//a
 public class MainActivity extends Activity {
     protected boolean active = true;
     protected int splashTime = 5000;
