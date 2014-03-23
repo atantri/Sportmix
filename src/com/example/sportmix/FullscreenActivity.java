@@ -7,8 +7,11 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -80,10 +83,41 @@ public void onTabReselected(Tab tab, FragmentTransaction ft) {
 @Override
 public void onTabSelected(Tab tab, FragmentTransaction ft) {
 	viewPager.setCurrentItem(tab.getPosition());
+	if(tab.getText()=="Scores")
+	{
+		//startActivity(new Intent("com.example.sportmix.Transp"));
+ 
+			/*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((Context) this);
+ 
+			// set title
+			alertDialogBuilder.setTitle("Alert");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage("Click yes to exit!")
+				.setCancelable(false)
+				
+				.setNeutralButton("Yes",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, just close
+						// the dialog box and do nothing
+						dialog.cancel();
+					}
+				});
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();*/
+			}
+	}
+	
+
 	
 	// TODO Auto-generated method stub
 	
-}
+
 
 @Override
 public void onTabUnselected(Tab tab, FragmentTransaction ft) {

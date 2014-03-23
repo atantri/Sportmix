@@ -27,11 +27,23 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" >
-            <intent-filter> 
-      			 <action android:name="com.example.sportmix.FullscreenActivity" />  
-         			<category android:name="android.intent.category.DEFAULT" />  
-     </intent-filter> 
+            <intent-filter>
+                <action android:name="com.example.sportmix.FullscreenActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.sportmix.Transp"
+            android:label="@string/title_activity_transp"
+            android:theme="@style/Theme.Transparent" >
+             <intent-filter>
+                <action android:name="com.example.sportmix.Transp" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>
