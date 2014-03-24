@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="prefrenceSports">
+        <item>FC Barcelona</item>
+        <item>Roger Federer</item>
+        <item>Rafael Nadal</item>
+        <item>Real Madrid FC</item>
+        <item>India</item>
+        <item>England</item>
+    </string-array>
+    
+</resources>
