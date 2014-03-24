@@ -29,7 +29,7 @@ public class ScoresFragment extends Fragment {
         TextView t=(TextView)rootView.findViewById(R.id.textView1);
        // t.setText("Working");
         for (Score cn : contacts) {
-            String log = "Id: "+cn.getId()+cn.getTeam1()+" "+cn.getScore()+"-"+cn.getScore2()+" "+cn.getTeam2();
+            String log = "\nId: "+cn.getId()+cn.getTeam1()+" "+cn.getScore()+"-"+cn.getScore2()+" "+cn.getTeam2();
             t.append(log);
                 // Writing Contacts to log
         }
