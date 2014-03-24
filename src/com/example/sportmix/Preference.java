@@ -2,19 +2,22 @@ package com.example.sportmix;
 
 public class Preference {
 	long id;
-	String sport,team;
+	String team;
+	Preference(String t)
+	{
+		team=t;
+	}
+	Preference()
+	{
+		
+	}
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getSport() {
-		return sport;
-	}
-	public void setSport(String sport) {
-		this.sport = sport;
-	}
+	
 	public String getTeam() {
 		return team;
 	}
