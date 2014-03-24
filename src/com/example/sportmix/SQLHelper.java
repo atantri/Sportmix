@@ -48,7 +48,11 @@ public class SQLHelper extends SQLiteOpenHelper {
     onCreate(db);
   }
  
-
+  public void closeDB() {
+      SQLiteDatabase db = this.getReadableDatabase();
+      if (db != null && db.isOpen())
+          db.close();
+  }
 
 
   public void insertScore(Score s) {
