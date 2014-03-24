@@ -33,16 +33,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.sportmix.Transp"
-            android:label="@string/title_activity_transp"
-            android:theme="@style/Theme.Transparent" >
-            <intent-filter>
-                <action android:name="com.example.sportmix.Transp" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        
         <activity
             android:name="com.example.sportmix.PreferenceActivity"
             android:label="@string/title_activity_preference" >

@@ -21,8 +21,7 @@ public class PreferencesFragment extends Fragment {
 	
 	
 	
-	private String[] preferenceSportString;
-	static final String[] preferenceFootballString = new String[] {"FC Barcelona","Real Madrid","Manchester United"};
+	
 	private String[] dataSource;
 	
 	 
@@ -59,9 +58,9 @@ public class PreferencesFragment extends Fragment {
 					long id) {
 				// TODO Auto-generated method stub
 				
-		        dataSource = preferenceFootballString;
+		        
 		        preferenceAdapter.notifyDataSetChanged();
-		       Toast.makeText(getActivity(),preferenceSportString[position], Toast.LENGTH_SHORT).show();
+		       Toast.makeText(getActivity(),dataSource[position], Toast.LENGTH_SHORT).show();
 			}
         	
         	
