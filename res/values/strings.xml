@@ -8,5 +8,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_transp">Transp</string>
+    <string name="title_activity_preference">PreferenceActivity</string>
+    <string name="title_activity_foot_ball_preference">FootBallPreference</string>
 
 </resources>

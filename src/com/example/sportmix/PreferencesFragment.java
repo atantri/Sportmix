@@ -2,6 +2,7 @@ package com.example.sportmix;
 import com.example.sportmix.R;
 import com.google.gwt.user.client.ui.Button;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 public class PreferencesFragment extends Fragment {
 	
 	private ListView preferenceSportList;
-	private View addPreferenceButton;
+	
 	
 	
 	private String[] preferenceSportString;
@@ -30,13 +31,11 @@ public class PreferencesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_preferences, container, false);
         
         preferenceSportList = (ListView) rootView.findViewById(R.id.preferenceListView);
-        addPreferenceButton =  getActivity().findViewById(R.id.addPreferenceButton);
         
         preferenceSportString = getResources().getStringArray(R.array.prefrenceSports);
         dataSource = preferenceSportString;
         
-        final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);
-        
+        final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);        
         preferenceSportList.setAdapter(preferenceAdapter);
         
         preferenceSportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,6 +52,27 @@ public class PreferencesFragment extends Fragment {
         	
         	
 		});
+        
+        android.widget.Button addPreferenceButton = (android.widget.Button) rootView.findViewById(R.id.addPreferenceButton);
+        
+        addPreferenceButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				// TODO Auto-generated method stub
+				Toast.makeText(getActivity(), "Should open a new activity", Toast.LENGTH_LONG).show();
+				
+				switch (v.getId())
+				{
+				case R.id.addPreferenceButton:
+					startActivity(new Intent("com.example.sportmix.PreferenceActivity"));
+					
+				}
+			}
+		});
+        
+  
         
         return rootView;
     }
