@@ -2,8 +2,6 @@ package com.example.sportmix;
 import java.util.List;
 
 import com.example.sportmix.R;
-import com.google.gwt.user.client.ui.Button;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
