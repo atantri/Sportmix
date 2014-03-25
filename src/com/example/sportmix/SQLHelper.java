@@ -23,7 +23,7 @@ public class SQLHelper extends SQLiteOpenHelper {
   		+ "team1 text,score text, team2 text,foreign key (team1) references team(name), foreign key (team2) references team(name))";
   
   private static final String TEAM_TABLE = "create table team (id integer primary key autoincrement,"
-	  		+ "name text unique)";
+	  		+ "name text unique,sportname text)";
   
   private static final String PREF_TABLE = "create table preference (id integer primary key autoincrement,"
 	  		+ "teamname text unique,foreign key (teamname) references team(name))";
@@ -33,10 +33,35 @@ public class SQLHelper extends SQLiteOpenHelper {
   }
 
   @Override
-  public void onCreate(SQLiteDatabase database) {
-    database.execSQL(SCORE_TABLE);
-    database.execSQL(TEAM_TABLE);
-    database.execSQL(PREF_TABLE);
+  public void onCreate(SQLiteDatabase db) {
+	
+    db.execSQL(SCORE_TABLE);
+    db.execSQL(TEAM_TABLE);
+    db.execSQL(PREF_TABLE);
+    clear("Preference",db);
+    clear("team",db);
+    clear("score",db);
+    insertTeam(new Team("Arsenal","Football"),db);
+    insertTeam(new Team("Chelsea","Football"),db);
+    insertScore(new Score("Arsenal", "Chelsea","10-0"),db);        
+    insertScore(new Score("Manu", "Manc","0-0"),db);
+    insertPreference(new Preference("Arsenal"),db);
+    insertPreference(new Preference("Chelsea"),db);
+    insertTeam(new Team("FC Barcelona","Football"),db);
+    insertPreference(new Preference("FC Barcelona"),db);
+    /*
+    clear("Preference");
+    clear("team");
+    clear("score");
+    insertTeam(new Team("Arsenal","Football"));
+    insertTeam(new Team("Chelsea","Football"));
+    insertScore(new Score("Arsenal", "Chelsea","10-0"));        
+    insertScore(new Score("Manu", "Manc","0-0"));
+    insertPreference(new Preference("Arsenal"));
+    insertPreference(new Preference("Chelsea"));
+    insertTeam(new Team("FC Barcelona","Football"));
+    insertPreference(new Preference("FC Barcelona"));
+    */
   }
 
   @Override
@@ -44,8 +69,12 @@ public class SQLHelper extends SQLiteOpenHelper {
     Log.w(SQLHelper.class.getName(),
         "Upgrading database from version " + oldVersion + " to "
             + newVersion + ", which will destroy all old data");
-    db.execSQL("DROP TABLE IF EXISTS score");
-    onCreate(db);
+    /*db.execSQL("DROP TABLE IF EXISTS Preference");
+    db.execSQL("DROP TABLE IF EXISTS Score");
+    db.execSQL("DROP TABLE IF EXISTS team");
+    onCreate(db);*/
+    
+    
   }
  
   public void closeDB() {
@@ -54,7 +83,30 @@ public class SQLHelper extends SQLiteOpenHelper {
           db.close();
   }
 
-
+  public List<String> getSportslist()
+  {
+	  List<String> contactList = new ArrayList<String>();
+	    // Select All Query
+	    String selectQuery = "SELECT distinct sportname from team";
+	 
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    Cursor cursor = db.rawQuery(selectQuery, null);
+	 
+	    // looping through all rows and adding to list
+	    if (cursor.moveToFirst()) {
+	        do {
+	            Team contact = new Team();
+	            
+	            contact.setSportname(cursor.getString(0));
+	          
+	            contactList.add(contact.getSportname());
+	        } while (cursor.moveToNext());
+	    }
+	    //db.delete("score",null,null);
+	    db.close();
+	    // return contact list
+	    return contactList;
+  }
   public void insertScore(Score s) {
 	  SQLiteDatabase  database=this.getWritableDatabase();
     ContentValues values = new ContentValues();
@@ -67,7 +119,18 @@ public class SQLHelper extends SQLiteOpenHelper {
     database.insert("Score",null,values);
     database.close();
   }
-
+  private void insertScore(Score s,SQLiteDatabase database) {
+	 
+    ContentValues values = new ContentValues();
+    values.put("team1", s.getTeam1());
+    values.put("score", s.getScore());
+    values.put("team2", s.getTeam2());
+    
+    
+    Log.d("Data:",s.getId()+s.getTeam1()+" "+s.getScore()+" "+s.getTeam2());
+    database.insert("Score",null,values);
+    
+  }
   public void deleteScore(Score s) {
 	  SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete("Score", "id = ?",
@@ -77,9 +140,14 @@ public class SQLHelper extends SQLiteOpenHelper {
   public void clear(String tname)
   {
 	  SQLiteDatabase db = this.getWritableDatabase();
-	  String del="Delete * from "+tname;
-	  db.execSQL(del);
-	  db.close();
+	    db.delete(tname,null,null);
+	    db.close();
+  }
+  private void clear(String tname,SQLiteDatabase db)
+  {
+	 
+	    db.delete(tname,null,null);
+	    
   }
   public List<Score> getAllScores() {
 	  List<Score> contactList = new ArrayList<Score>();
@@ -121,15 +189,15 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    return db.update("Score", values, "id = ?",
 	            new String[] { String.valueOf(contact.getId()) });
 	}
-  public void insertPreference(Preference s) {
-	  SQLiteDatabase  database=this.getWritableDatabase();
+  private void insertPreference(Preference s,SQLiteDatabase db) {
+	 
     ContentValues values = new ContentValues();
     
     values.put("teamname", s.getTeam());
     
-    database.insert("Preference",null,values);
+    db.insert("Preference",null,values);
     
-    database.close();
+
   }
 
   public void deletePreference(Preference s) {
@@ -170,19 +238,30 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    
 	    values.put("teamname",contact.getTeam());
-	    return db.update("Preference", values, "id = ?",
+	    int a=db.update("Preference", values, "id = ?",
 	            new String[] { String.valueOf(contact.getId()) });
+	  db.close();
+	  return a;
 	}
   
   public void insertTeam(Team s) {
 	SQLiteDatabase  database=this.getWritableDatabase();
     ContentValues values = new ContentValues();
     values.put("name", s.getName());
+    values.put("sportname", s.getSportname());
     database.insert("Team",null,values);
     
     database.close();
   }
-
+  private void insertTeam(Team s,SQLiteDatabase database) {
+		
+	    ContentValues values = new ContentValues();
+	    values.put("name", s.getName());
+	    values.put("sportname", s.getSportname());
+	    database.insert("Team",null,values);
+	    
+	    
+	  }
   public void deleteTeam(Team s) {
 	  SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete("Team", "id = ?",
@@ -221,7 +300,9 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    values.put("name", contact.getName());
 	    
-	    return db.update("Team", values, "id = ?",
+	    int a= db.update("Team", values, "id = ?",
 	            new String[] { String.valueOf(contact.getId()) });
+	    db.close();
+	    return a;
 	}
 } 

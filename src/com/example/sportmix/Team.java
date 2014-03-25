@@ -3,10 +3,17 @@ package com.example.sportmix;
 public class Team {
 	String name;
 	long id;
-	
-	Team(String n)
+	String sportname;
+	public String getSportname() {
+		return sportname;
+	}
+	public void setSportname(String sportname) {
+		this.sportname = sportname;
+	}
+	Team(String n,String sname)
 	{
 		name=n;
+		sportname=sname;
 	}
 	Team()
 	{

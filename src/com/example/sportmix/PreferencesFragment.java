@@ -36,17 +36,23 @@ public class PreferencesFragment extends Fragment {
         //preferenceSportString = getResources().getStringArray(R.array.prefrenceSports);
         //dataSource = preferenceSportString;
         SQLHelper db = new SQLHelper(getActivity());
-       /* db.insertPreference(new Preference("Arsenal"));
+        /*db.insertTeam(new Team("Arsenal","Football"));
+        db.insertTeam(new Team("Chelsea","Football"));
+        db.insertScore(new Score("Arsenal", "Chelsea","10-0"));        
+        db.insertScore(new Score("Manu", "Manc","0-0"));
+        db.insertPreference(new Preference("Arsenal"));
         db.insertPreference(new Preference("Chelsea"));
-        db.insertTeam(new Team("FC Barcelona"));
+        db.insertTeam(new Team("FC Barcelona","Football"));
         db.insertPreference(new Preference("FC Barcelona"));*/
         List<Preference> preflist=db.getAllPreferences();
         int size=preflist.size();
+        //int size=1;
         dataSource=new String[size];
         
         for(int i=0;i<size;i++)
         {
         	dataSource[i]=preflist.get(i).getTeam();
+        	//dataSource[i]="a";
         }
         final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);        
         preferenceSportList.setAdapter(preferenceAdapter);

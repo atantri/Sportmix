@@ -1,5 +1,7 @@
 package com.example.sportmix;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.R.anim;
 import android.app.Activity;
@@ -15,7 +17,7 @@ public class PreferenceActivity extends Activity {
 	
 	private ListView preferenceSportList;
 	private String [] dataSource;
-	static final String[] preferenceSportString = new String[] {"Football","Cricket","Tennis"};
+	//static final String[] preferenceSportString = new String[] {"Football","Cricket","Tennis"};
 	static final String[] preferenceFootballString = new String[] {"FC Barcelona","Real Madrid FC","Bayern Munich FC","Chelsea FC"};
 	static final String[] preferenceCricketString = new String[] {"India","Pakistan","Sri Lanka","Australia","England","South Africa","West Indies",
 		"New Zealand"};
@@ -29,7 +31,13 @@ public class PreferenceActivity extends Activity {
 		
 		
 		preferenceSportList = (ListView) findViewById(R.id.sportPreferenceList);
-		dataSource = preferenceSportString;
+		SQLHelper db=new SQLHelper(this);
+		List<String> sportlist=db.getSportslist();
+		dataSource=new String[sportlist.size()];
+		for(int i=0;i<sportlist.size();i++)
+		{
+			dataSource[i]=sportlist.get(i);
+		}
 		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
 		preferenceSportList.setAdapter(preferenceSportAdapter);
 		preferenceSportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -45,17 +53,17 @@ public class PreferenceActivity extends Activity {
 //					preferenceSportList.invalidate();
 //					dataSource = preferenceFootballString;
 //					preferenceSportAdapter.notifyDataSetChanged();
-					Toast.makeText(getApplicationContext(),"Case 0"+preferenceSportString[position], Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getApplicationContext(),"Case 0"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				case 1:
 					dataSource = preferenceCricketString;
 					preferenceSportAdapter.notifyDataSetChanged();
-					Toast.makeText(getApplicationContext(),"Case 1"+preferenceSportString[position], Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getApplicationContext(),"Case 1"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				case 2:
 					dataSource = preferenceTennisString;
 					preferenceSportAdapter.notifyDataSetChanged();
-					Toast.makeText(getApplicationContext(),"Case 2"+preferenceSportString[position], Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getApplicationContext(),"Case 2"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				}
 				
