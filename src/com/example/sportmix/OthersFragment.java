@@ -1,5 +1,6 @@
 package com.example.sportmix;
 import com.example.sportmix.R;
+
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

@@ -1,6 +1,9 @@
 package com.example.sportmix;
 import java.util.ArrayList;
+
 import java.util.List;
+
+
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,7 +19,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
   private static final String DATABASE_NAME = "sportmix.db";
-  private static final int DATABASE_VERSION = 1;
+  private static final int DATABASE_VERSION = 2;
 
   // Database creation sql statement
   private static final String SCORE_TABLE = "create table score (id integer primary key autoincrement,"
@@ -73,7 +76,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     db.execSQL("DROP TABLE IF EXISTS Score");
     db.execSQL("DROP TABLE IF EXISTS team");
     onCreate(db);*/
-    
+    //insertTeam(new Team("Real Madrid","Football"),db);
     
   }
  
@@ -269,20 +272,20 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    db.close();
   }
 
-  public List<Team> getAllTeams() {
+  public List<Team> getAllTeams(String sport) {
 	  List<Team> contactList = new ArrayList<Team>();
 	    // Select All Query
-	    String selectQuery = "SELECT  * FROM Team";
-
+	    
 	    SQLiteDatabase db = this.getWritableDatabase();
-	    Cursor cursor = db.rawQuery(selectQuery, null);
+	    Cursor cursor = db.rawQuery("SELECT name FROM Team where sportname = ? and name not in (select teamname from preference)", new String[] {sport});
+	    
 
 	    // looping through all rows and adding to list
 	    if (cursor.moveToFirst()) {
 	        do {
 	            Team contact = new Team();
-	            contact.setId(Integer.parseInt(cursor.getString(0)));
-	            contact.setName(cursor.getString(1));
+	            
+	            contact.setName(cursor.getString(0));
 	            
 
 	            contactList.add(contact);
