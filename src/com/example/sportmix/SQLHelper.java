@@ -19,7 +19,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
   private static final String DATABASE_NAME = "sportmix.db";
-  private static final int DATABASE_VERSION = 2;
+  private static final int DATABASE_VERSION = 1;
 
   // Database creation sql statement
   private static final String SCORE_TABLE = "create table score (id integer primary key autoincrement,"
@@ -52,6 +52,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     insertPreference(new Preference("Chelsea"),db);
     insertTeam(new Team("FC Barcelona","Football"),db);
     insertPreference(new Preference("FC Barcelona"),db);
+    insertTeam(new Team("Real Madrid","Football"),db);
+    insertTeam(new Team("Liverpool","Football"),db);
     /*
     clear("Preference");
     clear("team");
@@ -202,7 +204,17 @@ public class SQLHelper extends SQLiteOpenHelper {
     
 
   }
+  public void insertPreference(Preference s) {
+		 SQLiteDatabase db=this.getReadableDatabase();
+		 
+	    ContentValues values = new ContentValues();
+	    
+	    values.put("teamname", s.getTeam());
+	    
+	    db.insert("Preference",null,values);
+	    db.close();
 
+	  }
   public void deletePreference(Preference s) {
 	  SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete("Preference", "id = ?",
