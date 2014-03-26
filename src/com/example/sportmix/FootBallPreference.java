@@ -1,5 +1,6 @@
 package com.example.sportmix;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 public class FootBallPreference extends Activity {
 	
-	private String [] dataSource;
+	private ArrayList<String> dataSource;
 	private ListView preferenceFootballList;
 	//static final String[] preferenceFootballString = new String[] {"FC Barcelona","Real Madrid FC","Bayern Munich FC","Chelsea FC"};
 	SQLHelper db=new SQLHelper(this);
@@ -24,10 +25,10 @@ public class FootBallPreference extends Activity {
 		preferenceFootballList = (ListView) findViewById(R.id.footballPreferenceList);
 		
 		List <Team> tlist=db.getAllTeams("Football");
-		dataSource=new String[tlist.size()];
+		dataSource=new ArrayList<String>();
 		for(int i=0;i<tlist.size();i++)
 		{
-			dataSource[i]=tlist.get(i).getName();
+			dataSource.add(tlist.get(i).getName());
 		}
 		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
 		preferenceFootballList.setAdapter(preferenceSportAdapter);
@@ -37,9 +38,10 @@ public class FootBallPreference extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				
-					Toast.makeText(getApplicationContext(),dataSource[position], Toast.LENGTH_SHORT).show();
-					db.insertPreference(new Preference(dataSource[position]));
-					
+					Toast.makeText(getApplicationContext(),dataSource.get(position), Toast.LENGTH_SHORT).show();
+					db.insertPreference(new Preference(dataSource.get(position)));
+					preferenceSportAdapter.remove(preferenceSportAdapter.getItem(position));
+					preferenceSportAdapter.notifyDataSetChanged();
 				}
 	        	
 	        	
