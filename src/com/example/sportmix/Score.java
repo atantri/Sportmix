@@ -5,12 +5,16 @@ import java.util.ArrayList;
 public class Score {
 	String team1, team2;
 	String score;
+	double latitude,longitude;
 	long id;
-	Score(String t1,String t2,String s)
+	Score(String t1,String t2,String s,double lat,double longi)
 	{
 		team1=t1;
 		team2=t2;
 		score=s;
+		latitude=lat;
+		longitude=longi;
+		
 	}
 	Score()
 	{
@@ -39,6 +43,18 @@ public class Score {
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	
 	

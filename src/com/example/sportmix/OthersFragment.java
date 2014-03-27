@@ -1,10 +1,13 @@
 package com.example.sportmix;
-import com.example.sportmix.R;
+import java.util.List;
+import java.util.logging.Logger;
 
+import com.example.sportmix.R;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -17,6 +20,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,11 +57,18 @@ public class OthersFragment extends SupportMapFragment {
 	        double latitude = 100;
 	        double longitude = 100;
 	        Location mCurrentLocation;
+	        SQLHelper db = new SQLHelper(getActivity());
+	        List<Score> contacts = db.getAllScores();
+	        double lat,longi;
+	      Integer size=contacts.size();
+	        Log.d("Data:",size.toString());
+	      
 	        gps = new GPSTracker(getActivity());
 	        if(gps.canGetLocation()) {
 
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
+               
 
                 // \n is for new line
                 Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
@@ -67,6 +78,14 @@ public class OthersFragment extends SupportMapFragment {
 	         
 	        // adding marker
 	        mapView.addMarker(marker);
+	      for(Score c:contacts)
+	        {
+	        	lat=c.getLatitude();
+	        	longi=c.getLongitude();
+	        	 MarkerOptions marker1 = new MarkerOptions().position(new LatLng(lat, longi)).title("Hello Maps ").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+	        	 mapView.addMarker(marker1);
+	        }
+	        
 	       /* LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
 	        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));

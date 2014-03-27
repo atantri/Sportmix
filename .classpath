@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="src" path="/MainActivity"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

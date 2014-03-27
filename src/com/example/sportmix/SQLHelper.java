@@ -23,7 +23,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
   // Database creation sql statement
   private static final String SCORE_TABLE = "create table score (id integer primary key autoincrement,"
-  		+ "team1 text,score text, team2 text,foreign key (team1) references team(name), foreign key (team2) references team(name))";
+	  		+ "team1 text,score text, team2 text,latitude double,longitude double,foreign key (team1) references team(name), foreign key (team2) references team(name))";
   
   private static final String TEAM_TABLE = "create table team (id integer primary key autoincrement,"
 	  		+ "name text unique,sportname text)";
@@ -46,8 +46,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     clear("score",db);
     insertTeam(new Team("Arsenal","Football"),db);
     insertTeam(new Team("Chelsea","Football"),db);
-    insertScore(new Score("Arsenal", "Chelsea","10-0"),db);        
-    insertScore(new Score("Manu", "Manc","0-0"),db);
+    insertScore(new Score("Arsenal", "Chelsea","10-0",40.0,50.0),db);        
+    insertScore(new Score("Manu", "Manc","0-0",40.0,-100.0),db);
     insertPreference(new Preference("Arsenal"),db);
     insertPreference(new Preference("Chelsea"),db);
     insertTeam(new Team("FC Barcelona","Football"),db);
@@ -118,21 +118,27 @@ public class SQLHelper extends SQLiteOpenHelper {
     values.put("team1", s.getTeam1());
     values.put("score", s.getScore());
     values.put("team2", s.getTeam2());
+    values.put("latitude",s.getLatitude());
+    values.put("longitude",s.getLongitude());
     
     
-    Log.d("Data:",s.getId()+s.getTeam1()+" "+s.getScore()+" "+s.getTeam2());
+    
+    Log.d("Data:",s.getId()+s.getTeam1()+" "+s.getScore()+" "+s.getTeam2()+" "+s.getLatitude()+ " "+s.getLongitude() );
     database.insert("Score",null,values);
     database.close();
   }
+
   private void insertScore(Score s,SQLiteDatabase database) {
 	 
     ContentValues values = new ContentValues();
     values.put("team1", s.getTeam1());
     values.put("score", s.getScore());
     values.put("team2", s.getTeam2());
+    values.put("latitude",s.getLatitude());
+    values.put("longitude",s.getLongitude());
     
     
-    Log.d("Data:",s.getId()+s.getTeam1()+" "+s.getScore()+" "+s.getTeam2());
+    Log.d("Data:",s.getId()+s.getTeam1()+" "+s.getScore()+" "+s.getTeam2()+" "+s.getLatitude()+ " "+s.getLongitude() );
     database.insert("Score",null,values);
     
   }
@@ -170,6 +176,8 @@ public class SQLHelper extends SQLiteOpenHelper {
 	            contact.setTeam1(cursor.getString(1));
 	            contact.setScore(cursor.getString(2));
 	            contact.setTeam2(cursor.getString(3));
+	            contact.setLatitude(Double.parseDouble(cursor.getString(4)));
+	            contact.setLongitude(Double.parseDouble(cursor.getString(5)));
 	           
 	            // Adding contact to list
 	            contactList.add(contact);
@@ -180,7 +188,6 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    // return contact list
 	    return contactList;
   }
-
   public int updateScore(Score contact) {
 	    SQLiteDatabase db = this.getWritableDatabase();
 	 
@@ -283,7 +290,6 @@ public class SQLHelper extends SQLiteOpenHelper {
 	            new String[] { String.valueOf(s.getId()) });
 	    db.close();
   }
-
   public List<Team> getAllTeams(String sport) {
 	  List<Team> contactList = new ArrayList<Team>();
 	    // Select All Query
@@ -308,16 +314,8 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    db.close();
 	    return contactList;
   }
+}
+/*
 
-  public int updateTeam(Team contact) {
-	    SQLiteDatabase db = this.getWritableDatabase();
+  */
 
-	    ContentValues values = new ContentValues();
-	    values.put("name", contact.getName());
-	    
-	    int a= db.update("Team", values, "id = ?",
-	            new String[] { String.valueOf(contact.getId()) });
-	    db.close();
-	    return a;
-	}
-} 

@@ -375,10 +375,11 @@ containing a value of this type.
         public static final int sportbutton=0x7f02001e;
     }
     public static final class id {
-        public static final int action_settings=0x7f05000c;
+        public static final int action_settings=0x7f05000d;
         public static final int addPreferenceButton=0x7f050009;
         public static final int footballPreferenceList=0x7f050005;
         public static final int hybrid=0x7f050004;
+        public static final int item=0x7f05000c;
         public static final int map=0x7f050008;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
@@ -402,7 +403,8 @@ containing a value of this type.
         public static final int fragment_others=0x7f030006;
         public static final int fragment_preferences=0x7f030007;
         public static final int fragment_scores=0x7f030008;
-        public static final int splash=0x7f030009;
+        public static final int list_item=0x7f030009;
+        public static final int splash=0x7f03000a;
     }
     public static final class menu {
         public static final int foot_ball_preference=0x7f0b0000;
