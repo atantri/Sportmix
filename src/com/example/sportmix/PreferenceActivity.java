@@ -56,13 +56,15 @@ public class PreferenceActivity extends Activity {
 					//Toast.makeText(getApplicationContext(),"Case 0"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				case 1:
-					dataSource = preferenceCricketString;
-					preferenceSportAdapter.notifyDataSetChanged();
+					startActivity(new Intent("com.example.sportmix.CricketPreference"));
+					//dataSource = preferenceCricketString;
+					//preferenceSportAdapter.notifyDataSetChanged();
 					//Toast.makeText(getApplicationContext(),"Case 1"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				case 2:
-					dataSource = preferenceTennisString;
-					preferenceSportAdapter.notifyDataSetChanged();
+					startActivity(new Intent("com.example.sportmix.TennisPreference"));
+					//dataSource = preferenceTennisString;
+					//preferenceSportAdapter.notifyDataSetChanged();
 					//Toast.makeText(getApplicationContext(),"Case 2"+sportlist.get(position), Toast.LENGTH_SHORT).show();
 					break;
 				}

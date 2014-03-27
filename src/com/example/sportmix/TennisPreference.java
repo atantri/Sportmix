@@ -1,0 +1,58 @@
+package com.example.sportmix;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class TennisPreference extends Activity {
+	
+	private ArrayList<String> dataSource;
+	private ListView preferenceTennisList;
+	//static final String[] preferenceTennisString = new String[] {"Rafael Nadal","Roger Federer","Maria Sharapova","Novak Djokovic","J Del Potro"};
+	SQLHelper db=new SQLHelper(this);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_tennis);
+		preferenceTennisList = (ListView) findViewById(R.id.tennisPreferenceList);
+		
+		List <Team> tlist=db.getAllTeams("Tennis");
+		dataSource=new ArrayList<String>();
+		for(int i=0;i<tlist.size();i++)
+		{
+			dataSource.add(tlist.get(i).getName());
+		}
+		
+		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
+		preferenceTennisList.setAdapter(preferenceSportAdapter);
+		preferenceTennisList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				Toast.makeText(getApplicationContext(),dataSource.get(position), Toast.LENGTH_SHORT).show();
+				db.insertPreference(new Preference(dataSource.get(position)));
+				preferenceSportAdapter.remove(preferenceSportAdapter.getItem(position));
+				preferenceSportAdapter.notifyDataSetChanged();
+				}
+	        	
+	        	
+			});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//getMenuInflater().inflate(R.menu.tennis, menu);
+		return true;
+	}
+
+}

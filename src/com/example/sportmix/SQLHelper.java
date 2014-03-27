@@ -44,16 +44,42 @@ public class SQLHelper extends SQLiteOpenHelper {
     clear("Preference",db);
     clear("team",db);
     clear("score",db);
-    insertTeam(new Team("Arsenal","Football"),db);
-    insertTeam(new Team("Chelsea","Football"),db);
-    insertScore(new Score("Arsenal", "Chelsea","10-0",40.0,50.0),db);        
-    insertScore(new Score("Manu", "Manc","0-0",40.0,-100.0),db);
-    insertPreference(new Preference("Arsenal"),db);
-    insertPreference(new Preference("Chelsea"),db);
+    
     insertTeam(new Team("FC Barcelona","Football"),db);
+    insertTeam(new Team("Real Madrid FC","Football"),db);
+    insertTeam(new Team("AC Milan FC","Football"),db);
+    insertTeam(new Team("Juventes FC","Football"),db);
+    insertTeam(new Team("Bayern Munich FC","Football"),db);
+    insertTeam(new Team("Borussia Dortmund FC","Football"),db);
+    
+    insertTeam(new Team("India","Cricket"),db);
+    insertTeam(new Team("England","Cricket"),db);
+    insertTeam(new Team("Pakistan","Cricket"),db);
+    insertTeam(new Team("West Indies","Cricket"),db);
+    insertTeam(new Team("Australia","Cricket"),db);
+    insertTeam(new Team("South Africa","Cricket"),db);
+    insertTeam(new Team("Sri Lanka","Cricket"),db);
+    insertTeam(new Team("New Zealand","Cricket"),db);
+    insertTeam(new Team("Roger Federer","Tennis"),db);
+    insertTeam(new Team("Rafael Nadal","Tennis"),db);
+    insertTeam(new Team("Novak Djokovic","Tennis"),db);
+    insertTeam(new Team("Stan Wawrinka","Tennis"),db);
+    insertTeam(new Team("Maria Sharapova","Tennis"),db);
+    insertTeam(new Team("Victoria Azarenka","Tennis"),db);
+    insertTeam(new Team("Serena Williams","Tennis"),db);
+    
+    insertScore(new Score("Arsenal FC", "Chelsea FC","1-0",40.0,50.0),db);
+    insertScore(new Score("India", "Pakistan","267/8",40.0,-50.0),db);
+    insertScore(new Score("Roger Federer", "Rafael Nadal","4-3",-40.0,50.0),db);
+    insertScore(new Score("FC Barcelona", "Real Madrid FC","4-3",-40.0,-50.0),db);
+    insertScore(new Score("Maria Sharapova", "Serena Williams","7-6,5-7,8-7",-45.0,55.0),db);
+    insertScore(new Score("England", "Australia","50/5",140.0,150.0),db);
+    insertScore(new Score("Bayern Munich FC", "Borussia Dortmund FC","0-0",140.0,50.0),db);
+    
+    insertPreference(new Preference("Arsenal FC"),db);
+    insertPreference(new Preference("Chelsea FC"),db);
+    insertPreference(new Preference("Roger Federer"),db);
     insertPreference(new Preference("FC Barcelona"),db);
-    insertTeam(new Team("Real Madrid","Football"),db);
-    insertTeam(new Team("Liverpool","Football"),db);
     /*
     clear("Preference");
     clear("team");

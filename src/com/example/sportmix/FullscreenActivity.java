@@ -34,7 +34,7 @@ private ViewPager viewPager;
 private TabsPagerAdapter mAdapter;
 private ActionBar actionBar;
 // Tab titles
-private String[] tabs = { "Preferences", "Scores", "Settings" };
+private String[] tabs = { "Preferences", "Scores", "Map View" };
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {

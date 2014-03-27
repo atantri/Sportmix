@@ -57,6 +57,24 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+                <activity
+            android:name="com.example.sportmix.TennisPreference"
+            android:label="@string/title_activity_tennis" >
+            <intent-filter>
+                <action android:name="com.example.sportmix.TennisPreference" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.sportmix.CricketPreference"
+            android:label="@string/title_activity_cricket_preference" >
+            <intent-filter>
+                <action android:name="com.example.sportmix.CricketPreference" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
             
           <service
             android:name=".MyPlaybackService"
@@ -70,6 +88,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBc6KmPb83_got6oMSjdwcicjmjShgrxdw" />
+
     </application>
 
 </manifest>
