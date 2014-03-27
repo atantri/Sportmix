@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 
 import com.example.sportmix.R;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,7 +20,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-public class ScoresFragment extends Fragment {
+import android.widget.Toast;
+public class ScoresFragment extends Fragment implements FragmentLifeCycle {
 	ListView listv;
 	ArrayList<HashMap<String,String>> contactList;
     
@@ -32,14 +34,10 @@ public class ScoresFragment extends Fragment {
     	
         View rootView = inflater.inflate(R.layout.fragment_scores, container, false);
          
-        SQLHelper db = new SQLHelper(getActivity());
+      SQLHelper db = new SQLHelper(getActivity());
         
         int i=0;
-    /*    db.insertTeam(new Team("Arsenal","football"));
-        db.insertTeam(new Team("Chelsea","football"));
-        db.insertScore(new Score("Arsenal", "Chelsea","10-0"));        
-        db.insertScore(new Score("Manu", "Manc","0-0"));
-    */
+    
          
       
 
@@ -59,8 +57,7 @@ for(Score c:contacts)
         }
 
 
-      //  TextView t=(TextView)rootView.findViewById(R.id.textView1);
-       // t.setText("Working");
+ 
         ArrayAdapter<String> myListAdapter = 
         	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
@@ -73,4 +70,88 @@ for(Score c:contacts)
         
         return rootView;
     }
+	 @Override
+	  public void onResumeFragment() {
+		 
+	   
+		 
+	  }
+	 
+	 
+	   public void onActivityCreated(Bundle saved) {
+	        super.onActivityCreated(saved);
+	        SQLHelper db = new SQLHelper(getActivity());
+	        
+	        int i=0;
+	    
+	         
+	      
+
+	   listv=(ListView)getView().findViewById(android.R.id.list);
+	   
+	        List<Score> contacts = db.getAllScores();    
+	        ArrayList<String> scores = new ArrayList<String>(); 
+	        String str="";
+	       Iterator<Score> it=contacts.iterator();
+	for(Score c:contacts)
+	{
+		str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+		scores.add(str);
+	        
+	           i++;
+	                // Writing Contacts to log
+	        }
+
+
+	 
+	        ArrayAdapter<String> myListAdapter = 
+	        	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+
+	        listv.setAdapter(myListAdapter);
+	        
+	        
+	    }
+	
+	@Override
+	public void onPauseFragment() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	  @Override
+	    public void onStart() { 
+	        super.onStart();
+	    SQLHelper db = new SQLHelper(getActivity());
+        
+        int i=0;
+    
+         
+      
+
+   listv=(ListView)getView().findViewById(android.R.id.list);
+   
+        List<Score> contacts = db.getAllScores();    
+        ArrayList<String> scores = new ArrayList<String>(); 
+        String str="";
+       Iterator<Score> it=contacts.iterator();
+for(Score c:contacts)
+{
+	str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+	scores.add(str);
+        
+           i++;
+                // Writing Contacts to log
+        }
+
+
+ 
+        ArrayAdapter<String> myListAdapter = 
+        	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+
+        listv.setAdapter(myListAdapter);
+	    }
+	
 }
+
+
+
