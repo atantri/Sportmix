@@ -74,7 +74,7 @@ public class OthersFragment extends SupportMapFragment {
                 Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
             }
 	        // create marker
-	        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Hello Maps ");
+	        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Your Location");
 	         
 	        // adding marker
 	        mapView.addMarker(marker);
@@ -82,7 +82,8 @@ public class OthersFragment extends SupportMapFragment {
 	        {
 	        	lat=c.getLatitude();
 	        	longi=c.getLongitude();
-	        	 MarkerOptions marker1 = new MarkerOptions().position(new LatLng(lat, longi)).title("Hello Maps ").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+	        	String str=c.getTeam1()+" vs  "+c.getTeam2();
+	        	 MarkerOptions marker1 = new MarkerOptions().position(new LatLng(lat, longi)).title(str).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 	        	 mapView.addMarker(marker1);
 	        }
 	        
