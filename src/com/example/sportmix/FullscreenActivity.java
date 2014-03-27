@@ -1,7 +1,11 @@
 package com.example.sportmix;
 
-import com.example.sportmix.util.SystemUiHider;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import com.example.sportmix.util.SystemUiHider;
+import com.example.sportmix.FragmentLifeCycle;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -19,6 +23,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -55,13 +61,28 @@ for (String tab_name : tabs) {
     actionBar.addTab(actionBar.newTab().setText(tab_name)
             .setTabListener(this));
 }
+
+
 viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-	 
+	int currentPosition = 0;
     @Override
     public void onPageSelected(int position) {
         // on changing the page
         // make respected tab selected
-        actionBar.setSelectedNavigationItem(position);
+    	actionBar.setSelectedNavigationItem(position);
+    	if(position==1)
+    	{
+    	FragmentLifeCycle fragmentToShow = (FragmentLifeCycle)mAdapter.getItem(position);
+    	
+		fragmentToShow.onResumeFragment();
+
+		FragmentLifeCycle fragmentToHide = (FragmentLifeCycle)mAdapter.getItem(position);
+		
+		fragmentToHide.onPauseFragment();
+    	}
+
+		currentPosition = position;
+    
     }
  
     @Override
@@ -135,7 +156,8 @@ public void onRestart() {
 }
 
 public void onResume() {
-	super.onResume();
+	 super.onResume();
+    
 	tToast("onResume");
 }
 
