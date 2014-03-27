@@ -1,7 +1,9 @@
 package com.example.sportmix;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.sportmix.R;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,8 +22,8 @@ public class PreferencesFragment extends Fragment {
 	
 	
 	
-	private String[] dataSource;
-	
+	private ArrayList<String> dataSource;
+	 
 	 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,10 +32,10 @@ public class PreferencesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_preferences, container, false);
         
         preferenceSportList = (ListView) rootView.findViewById(R.id.preferenceListView);
-        
+       
         //preferenceSportString = getResources().getStringArray(R.array.prefrenceSports);
         //dataSource = preferenceSportString;
-        SQLHelper db = new SQLHelper(getActivity());
+        final SQLHelper  db = new SQLHelper(getActivity());
         /*db.insertTeam(new Team("Arsenal","Football"));
         db.insertTeam(new Team("Chelsea","Football"));
         db.insertScore(new Score("Arsenal", "Chelsea","10-0"));        
@@ -45,11 +47,11 @@ public class PreferencesFragment extends Fragment {
         List<Preference> preflist=db.getAllPreferences();
         int size=preflist.size();
         //int size=1;
-        dataSource=new String[size];
+        dataSource=new ArrayList<String>();
         
         for(int i=0;i<size;i++)
         {
-        	dataSource[i]=preflist.get(i).getTeam();
+        	dataSource.add(preflist.get(i).getTeam());
         	//dataSource[i]="a";
         }
         final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);        
@@ -64,7 +66,7 @@ public class PreferencesFragment extends Fragment {
 				
 		        
 		        preferenceAdapter.notifyDataSetChanged();
-		       Toast.makeText(getActivity(),dataSource[position], Toast.LENGTH_SHORT).show();
+		       Toast.makeText(getActivity(),dataSource.get(position), Toast.LENGTH_SHORT).show();
 			}
         	
         	
@@ -89,8 +91,20 @@ public class PreferencesFragment extends Fragment {
 			}
 		});
         
-  
-        db.closeDB();
+  preferenceSportList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				
+				Toast.makeText(getActivity(),"LONGCLICK", Toast.LENGTH_SHORT).show();
+				db.deletePreference(new Preference(dataSource.get(position)));
+				preferenceAdapter.remove(preferenceAdapter.getItem(position));
+				preferenceAdapter.notifyDataSetChanged();
+				return true;
+			
+			}
+		});
+        //db.closeDB();
         return rootView;
     }
 }

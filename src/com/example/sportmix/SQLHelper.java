@@ -189,7 +189,7 @@ public class SQLHelper extends SQLiteOpenHelper {
   public List<Score> getAllScores() {
 	  List<Score> contactList = new ArrayList<Score>();
 	    // Select All Query
-	    String selectQuery = "SELECT  * FROM Score";
+	    String selectQuery = "SELECT  * FROM Score where team1 in (select teamname from preference) or team2 in (select teamname from preference)";
 	 
 	    SQLiteDatabase db = this.getWritableDatabase();
 	    Cursor cursor = db.rawQuery(selectQuery, null);
@@ -241,7 +241,16 @@ public class SQLHelper extends SQLiteOpenHelper {
 		 SQLiteDatabase db=this.getReadableDatabase();
 		 
 	    ContentValues values = new ContentValues();
+	    /*String selectQuery = "SELECT  * FROM Preference where teamname=?";
+		 
 	    
+	    Cursor cursor = db.rawQuery(selectQuery, new String[] {s.getTeam()});
+	 
+	    // looping through all rows and adding to list
+	    if (cursor.moveToFirst()) {
+	    	db.close();
+	    	return;
+	    }*/
 	    values.put("teamname", s.getTeam());
 	    
 	    db.insert("Preference",null,values);
@@ -250,8 +259,8 @@ public class SQLHelper extends SQLiteOpenHelper {
 	  }
   public void deletePreference(Preference s) {
 	  SQLiteDatabase db = this.getWritableDatabase();
-	    db.delete("Preference", "id = ?",
-	            new String[] { String.valueOf(s.getId()) });
+	    db.delete("Preference", "teamname = ?",
+	            new String[] { String.valueOf(s.getTeam()) });
 	    db.close();
   }
 
