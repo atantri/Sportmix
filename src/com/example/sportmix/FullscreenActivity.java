@@ -80,7 +80,12 @@ viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
         // on changing the page
         // make respected tab selected
     	actionBar.setSelectedNavigationItem(position);
-    	
+    	if(position==1)
+    	{
+    		ScoresFragment pf=(ScoresFragment)getSupportFragmentManager().findFragmentById(R.layout.fragment_scores);
+    		if(pf!=null)
+    		pf.onResume();
+    	}
 		
     
     }

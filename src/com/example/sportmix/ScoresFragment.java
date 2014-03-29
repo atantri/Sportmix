@@ -27,7 +27,7 @@ public class ScoresFragment extends Fragment{
     
 	
 	
-	
+	ArrayAdapter<String> myListAdapter;
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
@@ -51,7 +51,7 @@ public class ScoresFragment extends Fragment{
 
 
  
-			ArrayAdapter<String> myListAdapter =new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+			 myListAdapter=new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
 			listv.setAdapter(myListAdapter);  
 			return rootView;
@@ -98,10 +98,48 @@ public class ScoresFragment extends Fragment{
 			str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
 			scores.add(str);
         }
-        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+        myListAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
         listv.setAdapter(myListAdapter);
 	    }
+	  @Override
+	  public void onResume()
+	  {
+		  super.onResume();
+		    SQLHelper db = new SQLHelper(getActivity());
+		    listv=(ListView)getView().findViewById(android.R.id.list);
+	        List<Score> contacts = db.getAllScores();    
+	        ArrayList<String> scores = new ArrayList<String>(); 
+	        String str="";
+	        Iterator<Score> it=contacts.iterator();
+			for(Score c:contacts)
+			{
+				str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+				scores.add(str);
+	        }
+	        myListAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+
+	        listv.setAdapter(myListAdapter);
+	        myListAdapter.notifyDataSetChanged();
+	  }
+	  public void refresh()
+	  {
+		  SQLHelper db = new SQLHelper(getActivity());
+		    listv=(ListView)getView().findViewById(android.R.id.list);
+	        List<Score> contacts = db.getAllScores();    
+	        ArrayList<String> scores = new ArrayList<String>(); 
+	        String str="";
+	        Iterator<Score> it=contacts.iterator();
+			for(Score c:contacts)
+			{
+				str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+				scores.add(str);
+	        }
+	        myListAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+
+	        listv.setAdapter(myListAdapter);
+	        myListAdapter.notifyDataSetChanged();
+	  }
 	
 }
 
