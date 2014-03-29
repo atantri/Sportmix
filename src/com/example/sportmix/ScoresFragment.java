@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-public class ScoresFragment extends Fragment implements FragmentLifeCycle {
+public class ScoresFragment extends Fragment{
 	ListView listv;
 	ArrayList<HashMap<String,String>> contactList;
     
@@ -29,124 +29,76 @@ public class ScoresFragment extends Fragment implements FragmentLifeCycle {
 	
 	
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+	{
     	
-        View rootView = inflater.inflate(R.layout.fragment_scores, container, false);
-         
-      SQLHelper db = new SQLHelper(getActivity());
-        
-        int i=0;
-    
-         
-      
-
-   listv=(ListView)rootView.findViewById(android.R.id.list);
+        	View rootView = inflater.inflate(R.layout.fragment_scores, container, false);
+        	SQLHelper db = new SQLHelper(getActivity());
+        	listv=(ListView)rootView.findViewById(android.R.id.list);
    
-        List<Score> contacts = db.getAllScores();    
-        ArrayList<String> scores = new ArrayList<String>(); 
-        String str="";
-       Iterator<Score> it=contacts.iterator();
-for(Score c:contacts)
-{
-	str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
-	scores.add(str);
-        
-           i++;
+	        List<Score> contacts = db.getAllScores();    
+	        ArrayList<String> scores = new ArrayList<String>(); 
+	        String str="";
+	        Iterator<Score> it=contacts.iterator();
+			for(Score c:contacts)
+			{
+				str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+				scores.add(str);
+		        
+           
                 // Writing Contacts to log
-        }
+			}
 
 
  
-        ArrayAdapter<String> myListAdapter = 
-        	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+			ArrayAdapter<String> myListAdapter =new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
-        listv.setAdapter(myListAdapter);
-        
-        
-        
-       // db.clear("Preference");
-        
-        
-        return rootView;
+			listv.setAdapter(myListAdapter);  
+			return rootView;
     }
-	 @Override
-	  public void onResumeFragment() {
-		 
-	   
-		 
-	  }
 	 
 	 
-	   public void onActivityCreated(Bundle saved) {
-	        super.onActivityCreated(saved);
-	        SQLHelper db = new SQLHelper(getActivity());
-	        
-	        int i=0;
-	    
-	         
-	      
-
-	   listv=(ListView)getView().findViewById(android.R.id.list);
+	/* 
+   public void onActivityCreated(Bundle saved) 
+   {
+        super.onActivityCreated(saved);
+        SQLHelper db = new SQLHelper(getActivity());
+        listv=(ListView)getView().findViewById(android.R.id.list);
 	   
 	        List<Score> contacts = db.getAllScores();    
 	        ArrayList<String> scores = new ArrayList<String>(); 
 	        String str="";
-	       Iterator<Score> it=contacts.iterator();
-	for(Score c:contacts)
-	{
-		str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
-		scores.add(str);
-	        
-	           i++;
-	                // Writing Contacts to log
-	        }
-
-
-	 
-	        ArrayAdapter<String> myListAdapter = 
-	        	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+	        Iterator<Score> it=contacts.iterator();
+			for(Score c:contacts)
+			{
+				str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+				scores.add(str);
+			}
+	        ArrayAdapter<String> myListAdapter =  new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
 	        listv.setAdapter(myListAdapter);
 	        
 	        
-	    }
+	    }*/
 	
-	@Override
-	public void onPauseFragment() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	  @Override
-	    public void onStart() { 
-	        super.onStart();
+	  public void onStart()
+	  { 
+	    super.onStart();
 	    SQLHelper db = new SQLHelper(getActivity());
-        
-        int i=0;
-    
-         
-      
-
-   listv=(ListView)getView().findViewById(android.R.id.list);
-   
+	    listv=(ListView)getView().findViewById(android.R.id.list);
         List<Score> contacts = db.getAllScores();    
         ArrayList<String> scores = new ArrayList<String>(); 
         String str="";
-       Iterator<Score> it=contacts.iterator();
-for(Score c:contacts)
-{
-	str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
-	scores.add(str);
-        
-           i++;
-                // Writing Contacts to log
+        Iterator<Score> it=contacts.iterator();
+		for(Score c:contacts)
+		{
+			str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+			scores.add(str);
         }
-
-
- 
-        ArrayAdapter<String> myListAdapter = 
-        	    new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
+        ArrayAdapter<String> myListAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item,R.id.item, scores);
 
         listv.setAdapter(myListAdapter);
 	    }

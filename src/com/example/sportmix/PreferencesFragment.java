@@ -1,5 +1,6 @@
 package com.example.sportmix;
 import java.util.ArrayList;
+
 import java.util.List;
 
 import com.example.sportmix.R;
@@ -18,12 +19,27 @@ import android.widget.Toast;
 public class PreferencesFragment extends Fragment {
 	
 	private ListView preferenceSportList;
-	
+	ArrayAdapter<String> aa;
 	
 	
 	
 	private ArrayList<String> dataSource;
-	 
+	 public void setData()
+	 {
+		 SQLHelper  db = new SQLHelper(getActivity());
+	       
+	        List<Preference> preflist=db.getAllPreferences();
+	        int size=preflist.size();
+	        
+	        dataSource=new ArrayList<String>();
+	        
+	        for(int i=0;i<size;i++)
+	        {
+	        	dataSource.add(preflist.get(i).getTeam());
+	        	//dataSource[i]="a";
+	        }
+	        db.closeDB();
+	 }
 	 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,20 +49,12 @@ public class PreferencesFragment extends Fragment {
         
         preferenceSportList = (ListView) rootView.findViewById(R.id.preferenceListView);
        
-        //preferenceSportString = getResources().getStringArray(R.array.prefrenceSports);
-        //dataSource = preferenceSportString;
+        
         final SQLHelper  db = new SQLHelper(getActivity());
-        /*db.insertTeam(new Team("Arsenal","Football"));
-        db.insertTeam(new Team("Chelsea","Football"));
-        db.insertScore(new Score("Arsenal", "Chelsea","10-0"));        
-        db.insertScore(new Score("Manu", "Manc","0-0"));
-        db.insertPreference(new Preference("Arsenal"));
-        db.insertPreference(new Preference("Chelsea"));
-        db.insertTeam(new Team("FC Barcelona","Football"));
-        db.insertPreference(new Preference("FC Barcelona"));*/
+       
         List<Preference> preflist=db.getAllPreferences();
         int size=preflist.size();
-        //int size=1;
+        
         dataSource=new ArrayList<String>();
         
         for(int i=0;i<size;i++)
@@ -54,7 +62,8 @@ public class PreferencesFragment extends Fragment {
         	dataSource.add(preflist.get(i).getTeam());
         	//dataSource[i]="a";
         }
-        final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);        
+        final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);  
+        aa=preferenceAdapter;
         preferenceSportList.setAdapter(preferenceAdapter);
         
         preferenceSportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,7 +113,29 @@ public class PreferencesFragment extends Fragment {
 			
 			}
 		});
+ 
         //db.closeDB();
         return rootView;
+    }
+    
+    @Override
+    public void onResume()
+    {
+    	super.onResume();
+    	SQLHelper  db = new SQLHelper(getActivity());
+        
+        List<Preference> preflist=db.getAllPreferences();
+        int size=preflist.size();
+        
+        dataSource=new ArrayList<String>();
+        
+        for(int i=0;i<size;i++)
+        {
+        	dataSource.add(preflist.get(i).getTeam());
+        	//dataSource[i]="a";
+        }
+        aa=new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);
+        preferenceSportList.setAdapter(aa);
+  	  aa.notifyDataSetChanged();
     }
 }

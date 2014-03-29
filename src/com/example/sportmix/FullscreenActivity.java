@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.example.sportmix.util.SystemUiHider;
-import com.example.sportmix.FragmentLifeCycle;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
@@ -50,7 +51,16 @@ setContentView(R.layout.activity_fullscreen);
 // Initilization
 viewPager = (ViewPager) findViewById(R.id.pager);
 actionBar = getActionBar();
-mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+mAdapter = (new TabsPagerAdapter(getSupportFragmentManager()) {
+	/*@Override
+	public Fragment getItem(int position)
+	{
+		PreferencesFragment pf= new PreferencesFragment();
+		pf.setData();
+		return pf;
+	}
+	*/
+		});
 
 viewPager.setAdapter(mAdapter);
 actionBar.setHomeButtonEnabled(false);
@@ -64,24 +74,14 @@ for (String tab_name : tabs) {
 
 
 viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-	int currentPosition = 0;
+	
     @Override
     public void onPageSelected(int position) {
         // on changing the page
         // make respected tab selected
     	actionBar.setSelectedNavigationItem(position);
-    	if(position==1)
-    	{
-    	FragmentLifeCycle fragmentToShow = (FragmentLifeCycle)mAdapter.getItem(position);
     	
-		fragmentToShow.onResumeFragment();
-
-		FragmentLifeCycle fragmentToHide = (FragmentLifeCycle)mAdapter.getItem(position);
 		
-		fragmentToHide.onPauseFragment();
-    	}
-
-		currentPosition = position;
     
     }
  
