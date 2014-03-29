@@ -51,16 +51,7 @@ setContentView(R.layout.activity_fullscreen);
 // Initilization
 viewPager = (ViewPager) findViewById(R.id.pager);
 actionBar = getActionBar();
-mAdapter = (new TabsPagerAdapter(getSupportFragmentManager()) {
-	/*@Override
-	public Fragment getItem(int position)
-	{
-		PreferencesFragment pf= new PreferencesFragment();
-		pf.setData();
-		return pf;
-	}
-	*/
-		});
+mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
 viewPager.setAdapter(mAdapter);
 actionBar.setHomeButtonEnabled(false);
@@ -79,14 +70,16 @@ viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
     public void onPageSelected(int position) {
         // on changing the page
         // make respected tab selected
-    	actionBar.setSelectedNavigationItem(position);
+    	
     	if(position==1)
     	{
-    		ScoresFragment pf=(ScoresFragment)getSupportFragmentManager().findFragmentById(R.layout.fragment_scores);
-    		if(pf!=null)
-    		pf.onResume();
+    		FragmentLifeCycle f=(FragmentLifeCycle) mAdapter.instantiateItem(viewPager, position);
+    		if(f!=null)
+    		{
+    			f.refresh();
+    		}
     	}
-		
+    	actionBar.setSelectedNavigationItem(position);
     
     }
  
@@ -108,7 +101,18 @@ public void onTabReselected(Tab tab, FragmentTransaction ft) {
 
 @Override
 public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	if(tab.getText()=="Scores")
+	{
+		FragmentLifeCycle f=(FragmentLifeCycle) mAdapter.instantiateItem(viewPager, 1);
+		if(f!=null)
+		{
+			f.refresh();
+		}
+	}
 	viewPager.setCurrentItem(tab.getPosition());
+	Fragment fragment;
+	//ft.replace(R.id.pager, fragment);
+	
 	if(tab.getText()=="Scores")
 	{
 		//startActivity(new Intent("com.example.sportmix.Transp"));

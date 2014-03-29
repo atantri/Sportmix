@@ -109,6 +109,7 @@ public class PreferencesFragment extends Fragment {
 				db.deletePreference(new Preference(dataSource.get(position)));
 				aa.remove(aa.getItem(position));
 				aa.notifyDataSetChanged();
+				
 				return true;
 			
 			}
