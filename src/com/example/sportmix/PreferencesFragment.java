@@ -62,9 +62,9 @@ public class PreferencesFragment extends Fragment {
         	dataSource.add(preflist.get(i).getTeam());
         	//dataSource[i]="a";
         }
-        final ArrayAdapter<String> preferenceAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);  
-        aa=preferenceAdapter;
-        preferenceSportList.setAdapter(preferenceAdapter);
+        aa= new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1,dataSource);  
+        
+        preferenceSportList.setAdapter(aa);
         
         preferenceSportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -74,7 +74,7 @@ public class PreferencesFragment extends Fragment {
 				// TODO Auto-generated method stub
 				
 		        
-		        preferenceAdapter.notifyDataSetChanged();
+		        aa.notifyDataSetChanged();
 		       Toast.makeText(getActivity(),dataSource.get(position), Toast.LENGTH_SHORT).show();
 			}
         	
@@ -107,8 +107,8 @@ public class PreferencesFragment extends Fragment {
 				
 				Toast.makeText(getActivity(),"LONGCLICK", Toast.LENGTH_SHORT).show();
 				db.deletePreference(new Preference(dataSource.get(position)));
-				preferenceAdapter.remove(preferenceAdapter.getItem(position));
-				preferenceAdapter.notifyDataSetChanged();
+				aa.remove(aa.getItem(position));
+				aa.notifyDataSetChanged();
 				return true;
 			
 			}
