@@ -1,8 +1,21 @@
 package com.example.sportmix;
 
+import java.io.BufferedReader;
+
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.example.sportmix.util.SystemUiHider;
 
@@ -42,9 +55,110 @@ private TabsPagerAdapter mAdapter;
 private ActionBar actionBar;
 // Tab titles
 private String[] tabs = { "Preferences", "Scores", "Map View" };
-
+private final String USER_AGENT="Mozilla/5.0";
 @Override
 protected void onCreate(Bundle savedInstanceState) {
+/*	
+try
+{
+	String url = "http://www.xmlsoccer.com/FootballDataDemo.asmx/GetHistoricMatchesByTeamAndDateInterval?ApiKey=VHXYDGWSMDFBZPOJGKDDEVPFGKBJOYAWINCMNFUUIHOYOFWKGL&teamId=46&startDateString=2011-4-4&endDateString=2011-5-5";
+	 
+	URL obj = new URL(url);
+	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+	// optional default is GET
+	con.setRequestMethod("GET");
+
+	//add request header
+	con.setRequestProperty("User-Agent", USER_AGENT);
+
+	int responseCode = con.getResponseCode();
+	//System.out.println("\nSending 'GET' request to URL : " + url);
+	//System.out.println("Response Code : " + responseCode);
+
+	BufferedReader in = new BufferedReader(
+	        new InputStreamReader(con.getInputStream()));
+	String inputLine;
+	StringBuffer response = new StringBuffer();
+
+	while ((inputLine = in.readLine()) != null) {
+		response.append(inputLine);
+	}
+	in.close();
+
+	//print result
+	//System.out.println(response.toString());
+	String str=response.toString();
+	SAXParserFactory factory = SAXParserFactory.newInstance();
+	SAXParser saxParser = factory.newSAXParser();
+	String t1,t2,s1,s2;
+	DefaultHandler handler = new DefaultHandler() {
+		 
+		boolean HomeGoals = false;
+		boolean AwayGoals = false;
+		boolean HomeTeam=false;
+		boolean AwayTeam=false;
+		public void startElement(String uri, String localName,String qName
+	                ) throws SAXException {
+	 
+			//System.out.println("Start Element :" + qName);
+	 
+			if (qName.equalsIgnoreCase("AwayGoals")) {
+				AwayGoals = true;
+			}
+	 
+			if (qName.equalsIgnoreCase("HomeGoals")) {
+				HomeGoals = true;
+			}
+			if (qName.equalsIgnoreCase("HomeTeam")) {
+				HomeTeam = true;
+			}
+			if (qName.equalsIgnoreCase("AwayTeam")) {
+				AwayTeam = true;
+			}
+			
+	 
+			
+		}
+	 
+		public void endElement(String uri, String localName,
+			String qName) throws SAXException {
+	 
+			//System.out.println("End Element :" + qName);
+	 
+		}
+	 
+		public void characters(char ch[], int start, int length) throws SAXException {
+	 
+			if (AwayGoals) {
+				System.out.println("First Name : " + new String(ch, start, length));
+				AwayGoals = false;
+			}
+	 
+			if (HomeGoals) {
+				System.out.println("Last Name : " + new String(ch, start, length));
+				HomeGoals = false;
+			}
+	 
+			if (AwayTeam) {
+				System.out.println("Nick Name : " + new String(ch, start, length));
+				AwayTeam = false;
+			}
+	 
+			if (HomeTeam) {
+				System.out.println("Salary : " + new String(ch, start, length));
+				HomeTeam = false;
+			}
+	 
+		}
+	 
+	  };
+	  saxParser.parse(new InputSource(new StringReader(str)), handler);
+}
+catch(Exception e)
+{
+	
+}*/
 super.onCreate(savedInstanceState);
 setContentView(R.layout.activity_fullscreen);
 

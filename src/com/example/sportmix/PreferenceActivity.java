@@ -1,5 +1,6 @@
 package com.example.sportmix;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 public class PreferenceActivity extends Activity {
 	
 	private ListView preferenceSportList;
-	private String [] dataSource;
+	private ArrayList<String> dataSource;
 	//static final String[] preferenceSportString = new String[] {"Football","Cricket","Tennis"};
 	static final String[] preferenceFootballString = new String[] {"FC Barcelona","Real Madrid FC","Bayern Munich FC","Chelsea FC"};
 	static final String[] preferenceCricketString = new String[] {"India","Pakistan","Sri Lanka","Australia","England","South Africa","West Indies",
@@ -33,10 +34,10 @@ public class PreferenceActivity extends Activity {
 		preferenceSportList = (ListView) findViewById(R.id.sportPreferenceList);
 		SQLHelper db=new SQLHelper(this);
 		List<String> sportlist=db.getSportslist();
-		dataSource=new String[sportlist.size()];
+		dataSource=new ArrayList<String>();
 		for(int i=0;i<sportlist.size();i++)
 		{
-			dataSource[i]=sportlist.get(i);
+			dataSource.add(sportlist.get(i));
 		}
 		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
 		preferenceSportList.setAdapter(preferenceSportAdapter);
@@ -46,10 +47,19 @@ public class PreferenceActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
+				String text=(String) parent.getItemAtPosition(position);
+				Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
 				switch(position)
 				{
 				case 0:
+					/*List <Team> tlist=db.getAllTeams("Football");
+					dataSource=new ArrayList<String>();
+					for(int i=0;i<tlist.size();i++)
+					{
+						dataSource.add(tlist.get(i).getName());
+					}*/
 					startActivity(new Intent("com.example.sportmix.FootBallPreference"));
+					
 //					preferenceSportList.invalidate();
 //					dataSource = preferenceFootballString;
 //					preferenceSportAdapter.notifyDataSetChanged();
