@@ -1,44 +1,39 @@
 package com.example.sportmix;
 
-import java.io.BufferedReader;
 
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
+import org.xml.sax.Attributes;
 import com.example.sportmix.util.SystemUiHider;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
-import android.app.AlertDialog;
+
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
+
+import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.os.Handler;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.util.Log;
+
 import android.widget.Toast;
 
 /**
@@ -58,108 +53,10 @@ private String[] tabs = { "Preferences", "Scores", "Map View" };
 private final String USER_AGENT="Mozilla/5.0";
 @Override
 protected void onCreate(Bundle savedInstanceState) {
-/*	
-try
-{
-	String url = "http://www.xmlsoccer.com/FootballDataDemo.asmx/GetHistoricMatchesByTeamAndDateInterval?ApiKey=VHXYDGWSMDFBZPOJGKDDEVPFGKBJOYAWINCMNFUUIHOYOFWKGL&teamId=46&startDateString=2011-4-4&endDateString=2011-5-5";
-	 
-	URL obj = new URL(url);
-	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-	// optional default is GET
-	con.setRequestMethod("GET");
 
-	//add request header
-	con.setRequestProperty("User-Agent", USER_AGENT);
-
-	int responseCode = con.getResponseCode();
-	//System.out.println("\nSending 'GET' request to URL : " + url);
-	//System.out.println("Response Code : " + responseCode);
-
-	BufferedReader in = new BufferedReader(
-	        new InputStreamReader(con.getInputStream()));
-	String inputLine;
-	StringBuffer response = new StringBuffer();
-
-	while ((inputLine = in.readLine()) != null) {
-		response.append(inputLine);
-	}
-	in.close();
-
-	//print result
-	//System.out.println(response.toString());
-	String str=response.toString();
-	SAXParserFactory factory = SAXParserFactory.newInstance();
-	SAXParser saxParser = factory.newSAXParser();
-	String t1,t2,s1,s2;
-	DefaultHandler handler = new DefaultHandler() {
-		 
-		boolean HomeGoals = false;
-		boolean AwayGoals = false;
-		boolean HomeTeam=false;
-		boolean AwayTeam=false;
-		public void startElement(String uri, String localName,String qName
-	                ) throws SAXException {
-	 
-			//System.out.println("Start Element :" + qName);
-	 
-			if (qName.equalsIgnoreCase("AwayGoals")) {
-				AwayGoals = true;
-			}
-	 
-			if (qName.equalsIgnoreCase("HomeGoals")) {
-				HomeGoals = true;
-			}
-			if (qName.equalsIgnoreCase("HomeTeam")) {
-				HomeTeam = true;
-			}
-			if (qName.equalsIgnoreCase("AwayTeam")) {
-				AwayTeam = true;
-			}
-			
-	 
-			
-		}
-	 
-		public void endElement(String uri, String localName,
-			String qName) throws SAXException {
-	 
-			//System.out.println("End Element :" + qName);
-	 
-		}
-	 
-		public void characters(char ch[], int start, int length) throws SAXException {
-	 
-			if (AwayGoals) {
-				System.out.println("First Name : " + new String(ch, start, length));
-				AwayGoals = false;
-			}
-	 
-			if (HomeGoals) {
-				System.out.println("Last Name : " + new String(ch, start, length));
-				HomeGoals = false;
-			}
-	 
-			if (AwayTeam) {
-				System.out.println("Nick Name : " + new String(ch, start, length));
-				AwayTeam = false;
-			}
-	 
-			if (HomeTeam) {
-				System.out.println("Salary : " + new String(ch, start, length));
-				HomeTeam = false;
-			}
-	 
-		}
-	 
-	  };
-	  saxParser.parse(new InputSource(new StringReader(str)), handler);
-}
-catch(Exception e)
-{
-	
-}*/
 super.onCreate(savedInstanceState);
+//new Sportref().execute("");
 setContentView(R.layout.activity_fullscreen);
 
 // Initilization
@@ -185,7 +82,7 @@ viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
         // on changing the page
         // make respected tab selected
     	
-    	if(position==1)
+    	if(position==1||position==2)
     	{
     		FragmentLifeCycle f=(FragmentLifeCycle) mAdapter.instantiateItem(viewPager, position);
     		if(f!=null)
@@ -306,5 +203,121 @@ private void tToast(String s) {
     toast.show();
 }
 
+private class Sportref extends AsyncTask<String, Void, String> {
+
+    @Override
+    protected String doInBackground(String... params) {
+        for (int i = 0; i < 5; i++) {
+            try {
+            	try
+            	{
+            		String url = "http://www.xmlsoccer.com/FootballDataDemo.asmx/GetHistoricMatchesByTeamAndDateInterval?ApiKey=VHXYDGWSMDFBZPOJGKDDEVPFGKBJOYAWINCMNFUUIHOYOFWKGL&teamId=46&startDateString=2011-4-4&endDateString=2011-5-5";
+            		 
+            		DefaultHttpClient httpClient = new DefaultHttpClient();
+            	    HttpGet httpGet = new HttpGet(url);
+
+            	    HttpResponse httpResponse = httpClient.execute(httpGet);
+            	    HttpEntity httpEntity = httpResponse.getEntity();
+            	    String str = EntityUtils.toString(httpEntity);
+            	    
+            		//print result
+            		//System.out.println(response.toString());
+            		
+            		SAXParserFactory factory = SAXParserFactory.newInstance();
+            		SAXParser saxParser = factory.newSAXParser();
+            		
+            		DefaultHandler handler = new DefaultHandler() {
+            			
+            			boolean HomeGoals = false;
+            			boolean AwayGoals = false;
+            			boolean HomeTeam=false;
+            			boolean AwayTeam=false;
+            			
+            			public void startElement(String uri, String localName,String qName,Attributes a
+            		                ) throws SAXException {
+            		 
+            				Log.d("info","Start Element :" + qName);
+            		 
+            				if (qName.equalsIgnoreCase("AwayGoals")) {
+            					AwayGoals = true;
+            				}
+            		 
+            				if (qName.equalsIgnoreCase("HomeGoals")) {
+            					HomeGoals = true;
+            				}
+            				if (qName.equalsIgnoreCase("HomeTeam")) {
+            					HomeTeam = true;
+            				}
+            				if (qName.equalsIgnoreCase("AwayTeam")) {
+            					AwayTeam = true;
+            				}
+            				
+            		 
+            				
+            			}
+            		 
+            			public void endElement(String uri, String localName,
+            				String qName) throws SAXException {
+            		 
+            				Log.d("info","End Element :" + qName);
+            		 
+            			}
+            		 
+            			public void characters(char ch[], int start, int length) throws SAXException {
+            		 
+            				if (AwayGoals) {
+            					Log.d("goal","AwayGoals : " + new String(ch, start, length));
+            					AwayGoals = false;
+            				}
+            		 
+            				if (HomeGoals) {
+            					Log.d("info","HomeGoals : " + new String(ch, start, length));
+            					HomeGoals = false;
+            				}
+            		 
+            				if (AwayTeam) {
+            					Log.d("info","AwayTeam : " + new String(ch, start, length));
+            					AwayTeam = false;
+            				}
+            		 
+            				if (HomeTeam) {
+            					Log.d("info","HomeTeam : " + new String(ch, start, length));
+            					HomeTeam = false;
+            				}
+            		 
+            			}
+            		 
+            		  };
+            		 
+            		  saxParser.parse(new InputSource(new StringReader(str)), handler);
+            		
+            	}
+            	catch(Exception e)
+            	{
+            		Log.d("Exception",e.toString());
+            	}
+                Thread.sleep(100000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+            }
+        }
+        return "Executed";
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+       Log.d("excec", "executed"); // txt.setText(result);
+        // might want to change "executed" for the returned string passed
+        // into onPostExecute() but that is upto you
+    }
+
+    @Override
+    protected void onPreExecute() {}
+
+    @Override
+    protected void onProgressUpdate(Void... values) {}
 }
+
+}
+
 

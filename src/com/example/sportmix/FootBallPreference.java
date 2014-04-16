@@ -17,13 +17,13 @@ public class FootBallPreference extends Activity {
 	private ArrayList<String> dataSource;
 	private ListView preferenceFootballList;
 	//static final String[] preferenceFootballString = new String[] {"FC Barcelona","Real Madrid FC","Bayern Munich FC","Chelsea FC"};
-	SQLHelper db=new SQLHelper(this);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_foot_ball_preference);
 		preferenceFootballList = (ListView) findViewById(R.id.footballPreferenceList);
-		
+		SQLHelper db=new SQLHelper(this);
 		List <Team> tlist=db.getAllTeams("Football");
 		dataSource=new ArrayList<String>();
 		for(int i=0;i<tlist.size();i++)
@@ -37,7 +37,7 @@ public class FootBallPreference extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				
+				SQLHelper db=new SQLHelper(parent.getContext());
 					Toast.makeText(getApplicationContext(),dataSource.get(position), Toast.LENGTH_SHORT).show();
 					db.insertPreference(new Preference(dataSource.get(position)));
 					preferenceSportAdapter.remove(preferenceSportAdapter.getItem(position));

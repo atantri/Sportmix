@@ -73,8 +73,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     insertScore(new Score("Roger Federer", "Rafael Nadal","4-3",-40.0,50.0),db);
     insertScore(new Score("FC Barcelona", "Real Madrid FC","4-3",-40.0,-50.0),db);
     insertScore(new Score("Maria Sharapova", "Serena Williams","7-6,5-7,8-7",-45.0,55.0),db);
-    insertScore(new Score("England", "Australia","50/5",140.0,150.0),db);
-    insertScore(new Score("Bayern Munich FC", "Borussia Dortmund FC","0-0",140.0,50.0),db);
+    insertScore(new Score("England", "Australia","50/5",40.0,150.0),db);
+    insertScore(new Score("Bayern Munich FC", "Borussia Dortmund FC","0-0",40.0,58.0),db);
     
     insertPreference(new Preference("Arsenal FC"),db);
     insertPreference(new Preference("Chelsea FC"),db);
