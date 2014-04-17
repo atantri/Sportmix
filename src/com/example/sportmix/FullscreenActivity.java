@@ -2,6 +2,7 @@ package com.example.sportmix;
 
 
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -15,25 +16,22 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
+
 import com.example.sportmix.util.SystemUiHider;
 
 import android.annotation.SuppressLint;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-
 import android.app.FragmentTransaction;
 import android.content.Context;
-
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
-
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-
 import android.widget.Toast;
 
 /**
@@ -44,7 +42,7 @@ import android.widget.Toast;
  */
 @SuppressLint("NewApi")
 public class FullscreenActivity extends FragmentActivity implements ActionBar.TabListener {
-
+	SQLHelper db=new SQLHelper(this);
 private ViewPager viewPager;
 private TabsPagerAdapter mAdapter;
 private ActionBar actionBar;
@@ -57,6 +55,14 @@ protected void onCreate(Bundle savedInstanceState) {
 
 super.onCreate(savedInstanceState);
 //new Sportref().execute("");
+
+ConnectivityManager connectivityManager 
+= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+if(!(activeNetworkInfo != null && activeNetworkInfo.isConnected()))
+{
+	Toast.makeText(this,"No network", Toast.LENGTH_SHORT).show();
+}
 setContentView(R.layout.activity_fullscreen);
 
 // Initilization
@@ -211,15 +217,20 @@ private class Sportref extends AsyncTask<String, Void, String> {
             try {
             	try
             	{
-            		String url = "http://www.xmlsoccer.com/FootballDataDemo.asmx/GetHistoricMatchesByTeamAndDateInterval?ApiKey=VHXYDGWSMDFBZPOJGKDDEVPFGKBJOYAWINCMNFUUIHOYOFWKGL&teamId=46&startDateString=2011-4-4&endDateString=2011-5-5";
+            		
+            		ArrayList<Integer> valist=db.getIdTeam();
+            		ArrayList<String> str=new ArrayList<String>();
+            		for(int a:valist)
+            		{
+            		String url = "http://www.xmlsoccer.com/FootballDataDemo.asmx/GetHistoricMatchesByTeamAndDateInterval?ApiKey=VHXYDGWSMDFBZPOJGKDDEVPFGKBJOYAWINCMNFUUIHOYOFWKGL&teamId="+a+"&startDateString=2011-4-4&endDateString=2011-5-5";
             		 
             		DefaultHttpClient httpClient = new DefaultHttpClient();
             	    HttpGet httpGet = new HttpGet(url);
 
             	    HttpResponse httpResponse = httpClient.execute(httpGet);
             	    HttpEntity httpEntity = httpResponse.getEntity();
-            	    String str = EntityUtils.toString(httpEntity);
-            	    
+            	    str.add(EntityUtils.toString(httpEntity));
+            		}
             		//print result
             		//System.out.println(response.toString());
             		
@@ -232,12 +243,17 @@ private class Sportref extends AsyncTask<String, Void, String> {
             			boolean AwayGoals = false;
             			boolean HomeTeam=false;
             			boolean AwayTeam=false;
-            			
+            			Score s;
+            			String sc;
             			public void startElement(String uri, String localName,String qName,Attributes a
             		                ) throws SAXException {
             		 
             				Log.d("info","Start Element :" + qName);
-            		 
+            				if(qName.equalsIgnoreCase("match"))
+            				{
+            					s=new Score();
+            					sc="";
+            				}
             				if (qName.equalsIgnoreCase("AwayGoals")) {
             					AwayGoals = true;
             				}
@@ -260,36 +276,49 @@ private class Sportref extends AsyncTask<String, Void, String> {
             				String qName) throws SAXException {
             		 
             				Log.d("info","End Element :" + qName);
-            		 
+            				if(qName.equalsIgnoreCase("match"))
+            				{
+            					db.insertScore(s);
+            				}
+            					
             			}
             		 
             			public void characters(char ch[], int start, int length) throws SAXException {
             		 
             				if (AwayGoals) {
             					Log.d("goal","AwayGoals : " + new String(ch, start, length));
+            					s.setLatitude(Math.random()*90);
+            					s.setLongitude(Math.random()*180);
+            					sc+="-"+new String(ch, start, length);
+            					s.setScore(sc);
             					AwayGoals = false;
             				}
             		 
             				if (HomeGoals) {
             					Log.d("info","HomeGoals : " + new String(ch, start, length));
+            					sc=new String(ch, start, length);
             					HomeGoals = false;
             				}
             		 
             				if (AwayTeam) {
             					Log.d("info","AwayTeam : " + new String(ch, start, length));
+            					s.setTeam1( new String(ch, start, length));
             					AwayTeam = false;
             				}
             		 
             				if (HomeTeam) {
             					Log.d("info","HomeTeam : " + new String(ch, start, length));
+            					s.setTeam2( new String(ch, start, length));
             					HomeTeam = false;
             				}
             		 
             			}
             		 
             		  };
-            		 
-            		  saxParser.parse(new InputSource(new StringReader(str)), handler);
+            		 for(String s:str)
+            		 {
+            		  saxParser.parse(new InputSource(new StringReader(s)), handler);
+            		 }
             		
             	}
             	catch(Exception e)

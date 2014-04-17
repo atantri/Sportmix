@@ -48,7 +48,8 @@
             android:name="com.example.sportmix.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.example.sportmix.FullscreenActivity" />
 
@@ -58,7 +59,8 @@
         
         <activity
             android:name="com.example.sportmix.PreferenceActivity"
-            android:label="@string/title_activity_preference" >
+            android:label="@string/title_activity_preference" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.example.sportmix.PreferenceActivity" />
 

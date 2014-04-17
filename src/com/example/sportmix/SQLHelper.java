@@ -25,8 +25,8 @@ public class SQLHelper extends SQLiteOpenHelper {
   private static final String SCORE_TABLE = "create table score (id integer primary key autoincrement,"
 	  		+ "team1 text,score text, team2 text,latitude double,longitude double,foreign key (team1) references team(name), foreign key (team2) references team(name))";
   
-  private static final String TEAM_TABLE = "create table team (id integer primary key autoincrement,"
-	  		+ "name text unique,sportname text)";
+  private static final String TEAM_TABLE = "create table team (id integer primary key,"
+	  		+ "name text unique,sportname text,wid integer)";
   
   private static final String PREF_TABLE = "create table preference (id integer primary key autoincrement,"
 	  		+ "teamname text unique,foreign key (teamname) references team(name))";
@@ -67,7 +67,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     insertTeam(new Team("Maria Sharapova","Tennis"),db);
     insertTeam(new Team("Victoria Azarenka","Tennis"),db);
     insertTeam(new Team("Serena Williams","Tennis"),db);
-    
+    insertTeam(new Team("Aberdeen","Football",45),db);
+    insertTeam(new Team("St Johnstone","Football",46),db);
     insertScore(new Score("Arsenal FC", "Chelsea FC","1-0",40.0,50.0),db);
     insertScore(new Score("India", "Pakistan","267/8",40.0,-50.0),db);
     insertScore(new Score("Roger Federer", "Rafael Nadal","4-3",-40.0,50.0),db);
@@ -153,7 +154,27 @@ public class SQLHelper extends SQLiteOpenHelper {
     database.insert("Score",null,values);
     database.close();
   }
-
+  public ArrayList<Integer> getIdTeam()
+  {
+	  String selectQuery = "SELECT wid from team where wid !=1 and name in (select teamname from preference)";
+		 
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    Cursor cursor = db.rawQuery(selectQuery, null);
+	    ArrayList<Integer> valist=new ArrayList<Integer>();
+	    // looping through all rows and adding to list
+	    if (cursor.moveToFirst()) {
+	    	do
+	    	{
+	    		valist.add(Integer.parseInt(cursor.getString(0)));
+	    	}
+	       while(cursor.moveToNext());
+	    }
+	    //db.delete("preference",null,null);
+	    // return contact list
+	    db.close();
+	    return valist;
+	  
+  }
   private void insertScore(Score s,SQLiteDatabase database) {
 	 
     ContentValues values = new ContentValues();
@@ -306,6 +327,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     ContentValues values = new ContentValues();
     values.put("name", s.getName());
     values.put("sportname", s.getSportname());
+    values.put("wid", s.getWid());
     database.insert("Team",null,values);
     
     database.close();
@@ -315,6 +337,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    values.put("name", s.getName());
 	    values.put("sportname", s.getSportname());
+	    values.put("wid", s.getWid());
 	    database.insert("Team",null,values);
 	    
 	    

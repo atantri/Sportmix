@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#ffffff"
+    android:background="#000000"
     tools:context=".PreferenceActivity" >
 
 
@@ -17,9 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#0090FD"
+        android:textColor="#FFFFFF"
+        
         android:textSize="22sp"
-        android:layout_marginTop="55dp" >
+         >
     </ListView>
 
 </RelativeLayout>

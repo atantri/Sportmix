@@ -42,7 +42,7 @@ public class PreferenceActivity extends Activity implements OnKeyListener{
 		{
 			dataSource.add(sportlist.get(i));
 		}
-		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
+		final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,R.layout.customlist,dataSource);
 		preferenceSportList.setAdapter(preferenceSportAdapter);
 		preferenceSportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			
@@ -62,7 +62,7 @@ public class PreferenceActivity extends Activity implements OnKeyListener{
 					{
 						dataSource.add(tlist.get(i).getName());
 					}
-					final ArrayAdapter<String> preferenceSportAdapter1 = new ArrayAdapter<String>(parent.getContext(),android.R.layout.simple_list_item_1,dataSource);
+					final ArrayAdapter<String> preferenceSportAdapter1 = new ArrayAdapter<String>(parent.getContext(),R.layout.customlist,dataSource);
 					
 					preferenceSportList.setAdapter(preferenceSportAdapter1);
 					addteam=true;
@@ -136,7 +136,7 @@ public class PreferenceActivity extends Activity implements OnKeyListener{
 			{
 				dataSource.add(sportlist.get(i));
 			}
-			final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dataSource);
+			final ArrayAdapter<String> preferenceSportAdapter = new ArrayAdapter<String>(this,R.layout.customlist,dataSource);
 			preferenceSportList.setAdapter(preferenceSportAdapter);
 			addteam=false;
 			return true;

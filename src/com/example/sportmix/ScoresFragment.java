@@ -42,7 +42,7 @@ public class ScoresFragment extends Fragment implements FragmentLifeCycle{
 	        Iterator<Score> it=contacts.iterator();
 			for(Score c:contacts)
 			{
-				str="\n "+c.getId()+"     "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
+				str="\n "+c.getTeam1()+"     "+c.getScore()+"     "+c.getTeam2()+"     ";
 				scores.add(str);
 		        
            

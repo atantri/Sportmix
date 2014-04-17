@@ -4,6 +4,13 @@ public class Team {
 	String name;
 	long id;
 	String sportname;
+	int wid;
+	public int getWid() {
+		return wid;
+	}
+	public void setWid(int wid) {
+		this.wid = wid;
+	}
 	public String getSportname() {
 		return sportname;
 	}
@@ -12,8 +19,15 @@ public class Team {
 	}
 	Team(String n,String sname)
 	{
-		name=n;
-		sportname=sname;
+		this.name=n;
+		this.sportname=sname;
+		wid=1;
+	}
+	Team(String n,String sname,int wid)
+	{
+		this.name=n;
+		this.sportname=sname;
+		this.wid=wid;
 	}
 	Team()
 	{

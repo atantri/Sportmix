@@ -402,12 +402,13 @@ containing a value of this type.
         public static final int activity_preference=0x7f030004;
         public static final int activity_tennis=0x7f030005;
         public static final int activity_transp=0x7f030006;
-        public static final int dialog=0x7f030007;
-        public static final int fragment_others=0x7f030008;
-        public static final int fragment_preferences=0x7f030009;
-        public static final int fragment_scores=0x7f03000a;
-        public static final int list_item=0x7f03000b;
-        public static final int splash=0x7f03000c;
+        public static final int customlist=0x7f030007;
+        public static final int dialog=0x7f030008;
+        public static final int fragment_others=0x7f030009;
+        public static final int fragment_preferences=0x7f03000a;
+        public static final int fragment_scores=0x7f03000b;
+        public static final int list_item=0x7f03000c;
+        public static final int splash=0x7f03000d;
     }
     public static final class menu {
         public static final int foot_ball_preference=0x7f0b0000;
